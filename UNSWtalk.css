@@ -1,0 +1,250 @@
+/*
+ * written by andrewt@cse.unsw.edu.au October 2017
+ * as a starting point for COMP[29]041 assignment 2
+ * https://cgi.cse.unsw.edu.au/~cs2041/assignments/UNSWtalk/
+ *
+ * Change (or replace) the CSS below to create you own look-and-feel
+ *
+ * You will probably want to add  CSS to this file too
+ */
+
+.unswtalk_heading {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.unswtalk_user_details {
+    background-color: #ABCDEF;
+    color: #204142;
+    white-space: pre;
+    border:thin solid #204142;
+    border-radius: 1em;
+    padding-left: 0.42em;
+}
+
+.unswtalk_button {
+
+    background-color: #FEDBCA;
+    border:thin solid #904142;
+    border-radius: 0.42em;
+    color: #904142;
+
+}
+
+
+
+
+/*input[type=text], input[type=password] {
+	width: 100%;
+	margin: 8px 0;
+	display: inline-block;
+	
+}*/
+
+button:hover{
+	opacity: 0.8;
+}
+
+.container {
+	text-align: center;
+
+
+	/*position:fixed;
+	right:0;
+	left:0;
+	margin-right: 20%;
+	margin-left: 20%;*/
+
+}
+
+
+.login_button {
+	background-color: #3B5998;
+	color: #FFFFFF;
+	border: none;
+	cursor: pointer;
+	width: 60px;
+	height: 30px;
+	display: inline-block;
+
+}
+
+.logintext {
+
+	width:200px;
+	height:20px;
+
+}
+
+.logoutbutton {
+	background-color: #3B5998;
+	color: #FFFFFF;
+	border: none;
+	cursor: pointer;
+	width: 60px;
+	height: 30px;
+	display: inline-block;
+	float:right
+
+}
+
+
+
+.content_container {
+	overflow: hidden;
+
+	margin-left:20px;
+
+}
+
+.intro_in_profile {
+	/*background-color: #3B5998;
+	margin-left: 0;
+	margin-right: 900px;*/
+	/*background-color: #3B5998;*/
+	float:left;
+	width: 20%;
+}
+
+.friend_list_in_profile {
+	/*background-color: #ABCDEF;
+	margin-top: 0px;
+	margin-left: 600px;*/
+	/*background-color: #ABCDEF;*/
+
+	float:right;
+	width: 80%;
+}
+
+.topnav {
+
+	overflow: hidden;
+	
+
+}
+
+
+
+
+
+.logout_bar {
+	/*background-color: #FF4500;*/
+	float: right;	
+}
+
+
+.home_bar {
+	/*background-color: #7FFFD4;*/
+
+	float: right;
+	width:5%;
+}	
+
+.profile_bar {
+	
+	/*background-color: #808080;   gray*/
+
+	float: right;
+	width:15%;
+}
+
+
+.notification_bar {
+
+	/*background-color: #C1CDCD;*/
+	float:right;
+	/*background: url('noti_icon.png');
+	background-size: 20px;
+	background-repeat: no-repeat;*/
+	margin-left: 1%;
+	margin-top:12px;
+	width:10%;
+
+}
+
+
+.noti {
+	/*background-color: #FF4040;*/
+
+
+	background-size: 20px;
+	background-repeat: no-repeat;
+	
+
+}
+
+.notification_num {
+
+
+	right: 11px;
+	top: 6px;
+	color: #fff;
+
+}
+
+
+
+.homepage_body {
+
+	overflow: hidden;
+
+}
+
+.homepage_post_area {
+	/*background-color: #FF4040;*/
+	float:left;
+
+}
+
+.homepage_post_information {
+	background-color: #C1CDCD;
+	width: 42%;
+	float:right;
+	margin-right: 25%;
+	
+
+}
+
+.homepage_friend_suggestion {
+	background-color: #FF5733;
+	overflow:auto;
+	float:right;
+
+
+}
+
+.homepage_post_information {
+	
+	padding:10px;
+
+}
+
+
+
+.show_comment {
+	background-color: #F5F5F5;
+	margin-left:50px;
+}
+
+.show_reply {
+	background-color: #F0F0F0;
+	margin-left:100px;
+
+}
+
+.signup_body {
+text-align: center;
+
+}
+
+
+
+
+
+
+
+
