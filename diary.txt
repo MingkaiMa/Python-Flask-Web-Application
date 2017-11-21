@@ -1,0 +1,10 @@
+12/10/2017 12:00-19:00
+13/10/2017 20:00-23:00
+15/10/2017 11:00-18:00  coding  implement level0-2
+18/10/2017 13:00-16:00  coding  implement level3 features
+18/10/2017 19:00-23:00  coding  implement level3 features
+26/10/2017 10:00-13:30  coding and debugging for level 0-3
+26/10/2017 15:00-18:30  coding and debugging for level 0-3
+26/10/2017 19:50-23:40  coding and debugging for level 0-3
+28/10/2017 13:00-18:15  implementing password recovery editing information, deleting post
+29/10/2017 11:00-18:00  implement in cgi and debug
