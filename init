@@ -1,0 +1,7 @@
+#!/bin/sh
+
+mkdir static
+mkdir templates
+
+mv *.html templates
+mv UNSWtalk.css static
