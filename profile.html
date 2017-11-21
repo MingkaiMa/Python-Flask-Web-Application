@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+
+<div class="topnav">
+
+	<div class="logout_bar">
+		<a href="{{url_for('start_login')}}"><button type="button">Logout</button>
+		</a>
+	</div>
+
+	<div class="home_bar">
+		<form method="post" action="login">
+			<input type="hidden" name="username" value="{{zid}}">
+			<input type="hidden" name="password" value="{{student_details[zid]['password']}}">
+			<input type="submit" name="action" value="home">		
+		</form>
+	</div>
+
+
+	<div class="profile_bar">
+		{% if student_details[zid]['img'] != 0%}
+		{% set url = "/profile?pro_zid=" + zid %}
+		<a href={{url_for('profile', pro_zid=zid)}} style="text-decoration:none;"><img src="{{url_for('static', filename=student_details[zid]['img'] )}}" alt="" style="width:25px;height:25px;">
+		<span style="color:black">{{student_details[zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+
+		{% if student_details[zid]['img'] == 0 %}
+		{% set url = "/profile?pro_zid=" + zid %}
+		<a href={{url_for('profile', pro_zid=zid)}} style="text-decoration:none;">
+		<span style="color:black">{{student_details[zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+	</div>
+
+
+	<div class="search_post_bar">
+		<form action="search_post" method="post">
+			<input type="text" name="search_post_content" placeholder="Search Post" size="25">
+			<input type="hidden" name="searcher_zid" value="{{zid}}">
+			<input type="submit" value="Search">
+		</form>	
+	</div>
+</div>
+
+
+<hr>
+<p>
+
+<p>
+{% if student_details[zid]['img'] != 0%}
+<img src="{{url_for('static', filename=student_details[zid]['img'] )}}" alt="" style="width:200px;height:200px;margin-left:20px;">
+{% endif %}
+{% if student_details[fri]['img'] == 0 %}
+{% endif %}
+<span style="margin-left:20px;margin-top:10px;font-size:150%;">{{student_details[zid]['full_name']}}</span>	
+
+{% if student_details[zid]['background_img'] != 0%}
+<img src="{{url_for('static', filename=student_details[zid]['background_img'] )}}" alt="" style="width:500px;height:200px;margin-left:20px;">
+{% endif %}
+{% if student_details[fri]['background_img'] == 0 %}
+{% endif %}
+
+
+<form method="post" action="upload">
+	<input type="submit" name="upload" value="profile_img">
+	<input type="submit" name="upload" value="backg_img">
+	<input type="hidden" name="home_zid" value="{{zid}}">
+</form>
+<p>
+
+<hr>
+
+
+
+<div class="content_container">
+
+	<div class="intro_in_profile">
+		<h3>Intro:</h3>
+		Birthday: {{student_details[zid]['birthday']}}
+		<p>
+		From: {{student_details[zid]['home_suburb']}}
+		<p>
+		Program: {{student_details[zid]['program']}}
+		<p>
+		zID: {{zid}}
+		<p>
+		This is myself:
+		<p>
+		{% if 'bio' not in student_details[zid]%}
+		<form action="profile" id="bioform" method="post">
+			<textarea rows="5" cols="10" form="bioform" placeholder="Profile Text" name="bio_content"></textarea>
+			<p>
+			<input type="hidden" name="bio_zid" value="{{zid}}">
+			<input type="submit" name="action" value="Intro myself">		
+		</form>
+		{% endif%}
+		{% if 'bio' in student_details[zid]%}
+		bio: {{student_details[zid]['bio']}}
+		{% endif %}
+		<p>
+		<form method="post" action="update_pro">
+			<input type="hidden" name="updater_zid" value="{{zid}}">
+			<input type="submit" name="update_pro_button" value="Update">		
+		</form>
+	</div>
+
+
+	<div class="friend_list_in_profile">
+		<h2 style="margin-left:20px;">Friends</h2>
+		<form method="post"  action="search">
+			<input type="text" name="search_input" placeholder="search for names" style="width:150px;height=40px;margin-left:20px;">
+			<input type="hidden" name="searcher_zid" value="{{zid}}">
+			<input type="submit" value="Search">
+		</form>		
+		<p>
+		{% for fri in student_details[zid]['friends'] %}
+		
+		<a href={{url_for('page', home_zid=zid, user=fri)}} target="_blank">
+		{% if student_details[fri]['img'] != 0%}
+		<img src="{{url_for('static', filename=student_details[fri]['img'] )}}" alt="" style="width:50px;height:50px;margin-left:20px;">
+
+		{% endif %}
+		{% if student_details[fri]['img'] == 0 %}
+		{% endif %}
+		<span style="margin-left:20px;margin-buttom:120px;font-size:150%;">{{student_details[fri]['full_name']}}</span>	
+		</a>
+		<form method="post" action="profile">
+			<input type="hidden" name="friend_name" value="{{fri}}">
+			<input type="hidden" name="who_unfriend" value="{{zid}}">
+			<input type="submit" name="action" value="unfriend">	
+		</form>
+		<p>
+		{% endfor%}
+	</div>
+	
+	
+</div>
+
+
+{% endblock %}

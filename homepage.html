@@ -1,0 +1,250 @@
+
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+
+
+<div class="topnav">
+
+	<div class="logout_bar">
+		<a href="{{url_for('start_login')}}"><button type="button">Logout</button>
+		</a>
+	</div>
+
+	<div class="home_bar">
+		<form method="post" action="login">
+			<input type="hidden" name="username" value="{{zid}}">
+			<input type="hidden" name="password" value="{{student_details[zid]['password']}}">
+			<input type="submit" name="action" value="home">		
+		</form>
+	</div>
+
+
+
+	<div class="profile_bar">
+		{% if student_details[zid]['img'] != 0%}
+
+		<a href={{url_for('profile', pro_zid=zid)}} style="text-decoration:none;"><img src="{{url_for('static', filename=student_details[zid]['img'] )}}" alt="" style="width:25px;height:25px;">
+		<span style="color:black">{{student_details[zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+
+		{% if student_details[zid]['img'] == 0 %}
+		{% set url = "/profile?pro_zid=" + zid %}
+		<a href={{url_for('profile', pro_zid=zid)}} style="text-decoration:none;">
+		<span style="color:black">{{student_details[zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+	</div>
+
+
+	<div class="search_post_bar">
+		<form action="search_post" method="post">
+			<input type="text" name="search_post_content" placeholder="Search Post" size="25">
+			<input type="hidden" name="searcher_zid" value="{{zid}}">
+			<input type="submit" value="Search">
+		</form>	
+	</div>
+</div>
+
+
+<hr>
+<p>
+
+<div class="homepage_body">
+	<div class="homepage_post_area">
+		<form action="homepage" id="postform" method="post">
+			<textarea rows="10" cols="45" form="postform" placeholder="What's on your mind, {{surname}}?" name="post_content"></textarea>
+			<p>
+			<input type="hidden" name="home_zid" value="{{zid}}">
+			<input type="submit" value="Post">		
+		</form>
+	</div>
+
+
+
+
+
+
+	<div class="homepage_friend_suggestion">
+	{% for likely_friend in likely_friend_list%}
+		{% if student_details[likely_friend]['img'] != 0%}
+		{% set url = "/page?home_zid=" + zid + "&user=" + likely_friend %}
+		<a href={{url_for('page', home_zid=zid, user=likely_friend)}} target="_blank" style="text-decoration:none;"><img src="{{url_for('static', filename=student_details[likely_friend]['img'] )}}" alt="" style="width:20px;height:20px;">	
+		<span style="margin-left:5px;font-size:100%;color:black;">{{student_details[likely_friend]['full_name']}}</span>	
+		</a>
+		{% endif %}
+
+		{% if student_details[likely_friend]['img'] == 0 %}
+		{% set url = "/page?home_zid=" + zid + "&user=" + likely_friend %}
+		<a href={{url_for('page', home_zid=zid, user=likely_friend)}}  target="_blank" style="text-decoration:none;">
+		<span style="margin-left:5px;font-size:100%;color:black;">{{student_details[likely_friend]['full_name']}}</span>
+		</a>
+		{% endif%}
+		<p>
+	{% endfor%}
+	</div>
+
+
+
+	<div class="homepage_post_information">
+	{% for zid_postnb_time in to_print_post %}
+
+		<div class="show_post">
+			
+				{% if student_details[zid_postnb_time[0]]['img'] != 0%}
+				<a href={{url_for('page', home_zid=zid, user=zid_postnb_time[0])}} target="_blank" style="text-decoration:none;"><img src="{{url_for('static', filename=student_details[zid_postnb_time[0]]['img'] )}}" alt="" style="width:20px;height:20px;">
+		
+				
+				<span style="margin-left:5px;font-size:100%; color:black;">{{student_details[zid_postnb_time[0]]['full_name']}}</span>	
+				</a>
+				{% endif %}
+
+				{% if student_details[zid_postnb_time[0]]['img'] == 0 %}
+				<a href={{url_for('page', home_zid=zid, user=zid_postnb_time[0])}} target="_blank" style="text-decoration:none;">
+				<span style="margin-left:5px;font-size:100%; color:black;">{{student_details[zid_postnb_time[0]]['full_name']}}</span>	
+				</a>
+				{% endif %}
+
+				<span style="margin-left:5px;font-size:100%; color:black;">{{zid_postnb_time[2]}}</span>
+				{% if zid_postnb_time[0] == zid%}
+				<form method="post" action="homepage">
+					<input type="hidden" name="home_zid" value="{{zid}}">
+					<input type="hidden" name="poster_zid" value="{{zid_postnb_time[0]}}">
+					<input type="hidden" name="post_nb" value="{{zid_postnb_time[1]}}">	
+					<input type="submit" name="delete_submit" value="Delete">			
+				</form>
+				{% endif %}
+
+				<p>
+				<div style="margin-left:15px;border:1px solid black;">
+				{% autoescape false %}
+				{{student_post[zid_postnb_time[0]][zid_postnb_time[1]]['message'] | safe}}
+	 			{% endautoescape %}
+				</div>
+				
+				<p>
+				
+			<form method="post" action='homepage' id="commentform">
+				<span style="margin-left:15px;">Comment: </span><input type="text" name="comment_content">
+				
+				<input type="hidden" name="home_zid" value="{{zid}}">
+				<input type="hidden" name="poster_zid" value="{{zid_postnb_time[0]}}">
+				<input type="hidden" name="post_nb" value="{{zid_postnb_time[1]}}">
+				<input type="submit" value="post">
+			</form>
+			</div>
+			<p>
+			<div class="show_comment">
+			{% for zid_postnb_comment_time in postcomment[zid_postnb_time] %}
+							
+							<a href={{url_for('page', home_zid=zid, user=student_comment[zid_postnb_comment_time[0]][(zid_postnb_comment_time[1], zid_postnb_comment_time[2])]['from'])}} target="_blank" style="text-decoration:none;">
+							{% if student_details[student_comment[zid_postnb_comment_time[0]][(zid_postnb_comment_time[1], zid_postnb_comment_time[2])]['from']]['img'] != 0%}
+				
+						
+							<img src="{{url_for('static', filename=student_details[student_comment[zid_postnb_comment_time[0]][(zid_postnb_comment_time[1], zid_postnb_comment_time[2])]['from']]['img'] )}}" alt="" style="width:20px;height:20px;">
+							{% endif %}
+
+							<span style="margin-left:5px;font-size:100%;color:black;">{{student_details[student_comment[zid_postnb_comment_time[0]][(zid_postnb_comment_time[1], zid_postnb_comment_time[2])]['from']]['full_name']}}</span>	
+							</a>
+							
+							<span style="margin-left:5px;font-size:100%; color:black;">{{zid_postnb_comment_time[3]}}</span>
+
+
+							{% if student_comment[zid_postnb_comment_time[0]][(zid_postnb_comment_time[1], zid_postnb_comment_time[2])]['from'] == zid%}
+							<form method="post" action="homepage">
+								<input type="hidden" name="home_zid" value="{{zid}}">
+								<input type="hidden" name="poster_zid" value="{{zid_postnb_comment_time[0]}}">
+								<input type="hidden" name="post_nb" value="{{zid_postnb_comment_time[1]}}">	
+								<input type="hidden" name="comment_nb" value="{{zid_postnb_comment_time[2]}}">
+								<input type="submit" name="delete_comment" value="Delete">			
+							</form>
+							{% endif %}
+
+							<p>
+							
+							
+
+							<div style="margin-left:15px;border:1px solid black;">
+							{% autoescape false %}
+							{{student_comment[zid_postnb_comment_time[0]][(zid_postnb_comment_time[1], zid_postnb_comment_time[2])]['message'] | safe}}
+	 						{% endautoescape %}	
+							</div>		
+							<p>
+
+						<form method="post" action='homepage' id="commentform">
+							<span style="margin-left:15px;">Reply: </span><input type="text" name="reply_content">
+							<input type="hidden" name="home_zid" value="{{zid}}">
+							<input type="hidden" name="poster_zid" value="{{zid_postnb_time[0]}}">
+							<input type="hidden" name="post_nb" value="{{zid_postnb_time[1]}}">
+							<input type="hidden" name="comment_nb" value="{{zid_postnb_comment_time[2]}}">
+							<input type="submit" value="post">
+						</form>
+						
+						<hr>
+						
+						{% for zid_postnb_comment_reply_time in postcommentreply[zid_postnb_comment_time] %}
+								
+								{% set temp_zid = zid_postnb_comment_reply_time[0]%}
+								{% set post_nb = zid_postnb_comment_reply_time[1] %}
+								{% set comment_nb = zid_postnb_comment_reply_time[2] %}
+								{% set reply_nb = zid_postnb_comment_reply_time[3] %}
+								{% set time = zid_postnb_comment_reply_time[4] %}
+
+								<div class="show_reply">
+								
+									<a href={{url_for('page', home_zid=zid, user=student_reply[temp_zid][(post_nb, comment_nb, reply_nb)]['from'])}} target="_blank" style="text-decoration:none;">
+									{% if student_details[student_reply[temp_zid][(post_nb, comment_nb, reply_nb)]['from']]['img'] != 0%}
+								
+									<img src="{{url_for('static', filename=student_details[student_reply[temp_zid][(post_nb, comment_nb, reply_nb)]['from']]['img'] )}}" alt="" style="width:20px;height:20px;">
+									{% endif %}
+									
+	
+									<span style="margin-left:5px;font-size:100%;color:black;">{{student_details[student_reply[temp_zid][(post_nb, comment_nb, reply_nb)]['from']]['full_name']}}</span>	
+									</a>
+									<span style="margin-left:5px;font-size:100%; color:black;">{{zid_postnb_comment_reply_time[4]}}</span>
+
+
+
+
+									{% if student_reply[temp_zid][(post_nb, comment_nb, reply_nb)]['from'] == zid%}
+									<form method="post" action="homepage">
+										<input type="hidden" name="home_zid" value="{{zid}}">
+										<input type="hidden" name="poster_zid" value="{{temp_zid}}">
+										<input type="hidden" name="post_nb" value="{{post_nb}}">	
+										<input type="hidden" name="comment_nb" value="{{comment_nb}}">
+										<input type="hidden" name="reply_nb" value="{{reply_nb}}">
+										<input type="submit" name="delete_reply" value="Delete">			
+									</form>
+									{% endif %}
+
+
+									<p>
+									<div style="margin-left:15px;border:1px solid black;">
+
+									{% autoescape false %}
+									{{student_reply[temp_zid][(post_nb, comment_nb, reply_nb)]['message'] | safe}}
+	 								{% endautoescape %}		
+									</div>
+									<p>
+									
+
+								</div>
+						{% endfor %}
+			{% endfor %}
+			</div>
+	{% endfor %}		
+	</div>
+
+
+
+
+	
+</div>
+
+
+
+
+{% endblock %}
+

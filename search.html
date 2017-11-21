@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+<div class="topnav">
+
+	<div class="logout_bar">
+		<a href="{{url_for('start_login')}}"><button type="button">Logout</button>
+		</a>
+	</div>
+
+	<div class="home_bar">
+		<form method="post" action="login">
+			<input type="hidden" name="username" value="{{zid}}">
+			<input type="hidden" name="password" value="{{student_details[zid]['password']}}">
+			<input type="submit" name="action" value="home">		
+		</form>
+	</div>
+
+
+	<div class="profile_bar">
+		{% if student_details[zid]['img'] != 0%}
+		<a href={{url_for('profile', pro_zid=zid)}} style="text-decoration:none;"><img src="{{url_for('static', filename=student_details[zid]['img'] )}}" alt="" style="width:25px;height:25px;">
+		<span style="color:black">{{student_details[zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+
+		{% if student_details[zid]['img'] == 0 %}
+		{% set url = "/profile?pro_zid=" + zid %}
+		<a href={{url_for('profile', pro_zid=zid)}} style="text-decoration:none;">
+		<span style="color:black">{{student_details[zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+	</div>
+
+
+	<div class="search_post_bar">
+		<form action="search_post" method="post">
+			<input type="text" name="search_post_content" placeholder="Search Post" size="25">
+			<input type="hidden" name="searcher_zid" value="{{zid}}">
+			<input type="submit" value="Search">
+		</form>	
+	</div>
+</div>
+
+<p>
+<hr>
+
+<h2>Search Result</h2>
+
+
+
+<p>
+<hr>
+{% for stu in search_result_list %}
+{% if student_details[stu]['img'] != 0%}
+
+<a href={{url_for('page', home_zid=zid, user=stu)}} target="_blank"><img src="{{url_for('static', filename=student_details[stu]['img'] )}}" alt="" style="width:50px;height:50px;margin-left:20px;">
+	
+{% endif %}
+{% if student_details[stu]['img'] == 0 %}
+{% endif %}
+<span style="margin-left:20px;margin-buttom:120px;font-size:150%;">{{student_details[stu]['full_name']}}</span>	
+</a>
+<p>
+{% endfor%}
+
+
+
+{% endblock %}

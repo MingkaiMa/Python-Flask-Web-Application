@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+<form method="POST" action="">
+	<input type="hidden" name="n" value="7">
+	<input type="submit" value="Next student" class="unswtalk_button">
+</form>
+<p>
+<form method="POST" action="start_login">
+	<input type="submit" value="Login"  class="unswtalk_button">
+</form>
+
+<p>
+<hr>
+<p>
+{% if img_src != 0%}
+<img src="{{url_for('static', filename=img_src )}}" alt="" style="width:200px;height:200px;margin-left:20px;">
+{% endif %}
+{% if img_src == 0 %}
+No Img.
+{% endif %}
+<span style="margin-left:20px;margin-buttom:120px;font-size:150%;">{{student_details[zid]['full_name']}}</span>	
+<p>
+<hr>
+<p>
+<p>
+<h3>Intro:</h3>
+Birthday: {{student_details[zid]['birthday']}}
+<p>
+From: {{student_details[zid]['home_suburb']}}
+<p>
+Program: {{student_details[zid]['program']}}
+<p>
+zID: {{zid}}
+<p>
+Friends: 
+{% for fri in student_details[zid]['friends'] %}
+	{{ student_details[fri]['full_name'] }}
+	{% if not loop.last %}
+	{{', '}}
+	{% endif %}
+{% endfor %}
+<hr>
+<p>
+Post:
+<p>
+<ul>
+
+{% for post in student_post[zid] %}
+<li> <b>{{student_post[zid][post]['time']}}</b>
+	 <p>
+	 Message:
+	 <p>
+	 {% autoescape false %}
+	 {{student_post[zid][post]['message'] | safe}}
+	 {% endautoescape %}
+	 <p>
+	 From:
+     <p>
+	 {{student_details[student_post[zid][post]['from']]['full_name']}}
+	 <p>
+
+{% endfor %}
+</ul>
+
+
+<hr>
+
+
+
+{% endblock %}
+
+
+

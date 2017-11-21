@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block body_contents %}
+
+<div class="topnav">
+
+	<div class="logout_bar">
+		<a href="{{url_for('start_login')}}"><button type="button">Logout</button>
+		</a>
+	</div>
+
+	<div class="home_bar">
+		<form method="post" action="login">
+			<input type="hidden" name="username" value="{{home_zid}}">
+			<input type="hidden" name="password" value="{{student_details[home_zid]['password']}}">
+			<input type="submit" name="action" value="home">		
+		</form>
+	</div>
+
+
+	<div class="profile_bar">
+		{% if student_details[home_zid]['img'] != 0%}
+		{% set url = "/profile?pro_zid=" + home_zid %}
+		<a href={{url_for('profile', pro_zid=home_zid)}} style="text-decoration:none;"><img src="{{url_for('static', filename=student_details[home_zid]['img'] )}}" alt="" style="width:25px;height:25px;">
+		<span style="color:black">{{student_details[home_zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+
+		{% if student_details[home_zid]['img'] == 0 %}
+		
+		{% set url = "/profile?pro_zid=" + home_zid %}
+		<a href={{url_for('profile', pro_zid=home_zid)}} style="text-decoration:none;">
+		<span style="color:black">{{student_details[home_zid]['full_name']}}</span>
+		</a>
+		{% endif %}
+	</div>
+
+
+	<div class="search_post_bar">
+		<form action="search_post" method="post">
+			<input type="text" name="search_post_content" placeholder="Search Post" size="25">
+			<input type="hidden" name="searcher_zid" value="{{home_zid}}">
+			<input type="submit" value="Search">
+		</form>	
+	</div>
+</div>
+
+
+
+<p>
+{% if student_details[look_for_zid]['img'] != 0%}
+<img src="{{url_for('static', filename=student_details[look_for_zid]['img'] )}}" alt="" style="width:200px;height:200px;margin-left:20px;">
+{% endif %}
+{% if student_details[look_for_zid]['img'] == 0 %}
+{% endif %}
+<span style="margin-left:20px;margin-top:10px;font-size:150%;">{{student_details[look_for_zid]['full_name']}}</span>	
+
+{% if look_for_zid in student_details[home_zid]['friends'] %}
+<p>
+You are friends now
+{% endif%}
+{% if look_for_zid not in student_details[home_zid]['friends']%}
+{% if look_for_zid != home_zid %}
+<form method="post" action="friend_add">
+	<input type="hidden" name="send_zid" value="{{home_zid}}">
+	<input type="hidden" name="receive_zid" value="{{look_for_zid}}">
+	<input type="submit" value="Add Friend">
+</form>
+{% endif %}
+{% endif%}
+<p>
+<hr>
+
+
+
+<div class="content_container">
+
+	<div class="intro_in_profile">
+		<h3>Intro:</h3>
+		Birthday: {{student_details[look_for_zid]['birthday']}}
+		<p>
+		From: {{student_details[look_for_zid]['home_suburb']}}
+		<p>
+		Program: {{student_details[look_for_zid]['program']}}
+		<p>
+		zID: {{look_for_zid}}
+	</div>
+
+
+	<div class="friend_list_in_profile">
+		<h2 style="margin-left:20px;">Friends</h2>
+		<form method="post"  action="search">
+			<input type="text" name="search_input" placeholder="search for names" style="width:150px;height=40px;margin-left:20px;">
+			<input type="hidden" name="searcher_zid" value="{{home_zid}}">
+			<input type="submit" value="Search">
+		</form>		
+		<p>
+		{% for fri in student_details[look_for_zid]['friends'] %}
+
+		<a href={{url_for('page', home_zid=home_zid, user=fri)}} target="_blank">
+		{% if student_details[fri]['img'] != 0%}
+
+		<img src="{{url_for('static', filename=student_details[fri]['img'] )}}" alt="" style="width:50px;height:50px;margin-left:20px;">
+	
+		{% endif %}
+		{% if student_details[fri]['img'] == 0 %}
+		{% endif %}
+		<span style="margin-left:20px;margin-buttom:120px;font-size:150%;">{{student_details[fri]['full_name']}}</span>	
+		</a>
+		<p>
+		{% endfor%}
+	</div>
+	
+	
+</div>
+
+
+
+
+
+{% endblock %}
+
